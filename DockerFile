@@ -1,0 +1,4 @@
+FROM openjdk:11
+MAINTAINER baeldung.com
+COPY build/libs/compiment-bot-1.0.jar compliment-bot-1.0.0.jar
+ENTRYPOINT ["java","-jar","/compliment-bot-1.0.0.jar"]
