@@ -1,11 +1,11 @@
 package com.darya.compiment.telegram;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.darya.compiment.telegram.compliments.GoodMoodCompliments;
+import com.darya.compiment.telegram.compliments.MadMoodCompliments;
+import com.darya.compiment.telegram.compliments.TypicalMoodCompliments;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,9 +23,9 @@ public class TelegramBot extends TelegramLongPollingBot {
     @Value("${bot.chatId}")
     private Long daryaChatId;
     private static final Map<MoodType, String> MOOD_TYPE_STRING_MAP = Map.of(
-            MoodType.GOOD, "good_mood.txt",
-            MoodType.MAD, "mad_mood.txt",
-            MoodType.TYPICAL, "typical_mood.txt"
+            MoodType.GOOD, GoodMoodCompliments.ALL,
+            MoodType.MAD, MadMoodCompliments.ALL,
+            MoodType.TYPICAL, TypicalMoodCompliments.ALL
     );
 
     public TelegramBot(@Value("${bot.token}") String token) {
@@ -78,8 +78,8 @@ public class TelegramBot extends TelegramLongPollingBot {
         return BOT_NAME;
     }
 
-    private void sendNotification(String chatId, MoodType moodType) throws TelegramApiException, IOException {
-        String allContent = Files.readString(Path.of("src/main/resources/" + MOOD_TYPE_STRING_MAP.get(moodType)));
+    private void sendNotification(String chatId, MoodType moodType) throws TelegramApiException {
+        String allContent = MOOD_TYPE_STRING_MAP.get(moodType);
         String[] allCompliments = allContent.split(DELIMETER);
         Integer complimentNumber = allCompliments.length;
         var request = new SendMessage(chatId, allCompliments[RandomUtils.nextInt(0, complimentNumber)]);
