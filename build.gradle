@@ -8,7 +8,6 @@ plugins {
     id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.0.13.RELEASE'
     id 'java'
-    id 'com.google.cloud.tools.jib' version '3.2.1'
 }
 
 java {
@@ -22,17 +21,6 @@ version = '1.0'
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
-    }
-}
-
-jib {
-    configurations {
-        to {
-            auth {
-                username = 'ikoncevich101'
-                password = 'Ye5XzxbzB!$zH5E'
-            }
-        }
     }
 }
 
