@@ -9,14 +9,17 @@ plugins {
     id 'idea'
     id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'com.google.cloud.tools.jib' version '3.2.1'
     id 'war'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 group = 'com.dasha.compliment'
 version = '1.0'
-
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
 
 configurations {
     compileOnly {
