@@ -32,7 +32,7 @@ jib {
         to {
             auth {
                 username = 'ikoncevich101'
-                password = 'Ye5XzxbzBbuildzH5E'
+                password = 'Ye5XzxbzB!$zH5E'
             }
         }
     }
