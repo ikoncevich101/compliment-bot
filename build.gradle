@@ -1,0 +1,54 @@
+buildscript {
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version '2.7.8'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'war'
+}
+
+group = 'com.dasha.compliment'
+version = '1.0'
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+sourceSets.main.java.srcDirs = ['build/generated/java/main', 'src/main/java']
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '6.5.0'
+    
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+compileJava {
+    inputs.files(processResources)
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+war {
+    enabled = true
+    archiveClassifier.set("")
+}
