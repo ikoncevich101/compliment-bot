@@ -54,7 +54,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 .map(MoodType::getDisplayName)
                 .filter(type -> type.equalsIgnoreCase(message.trim()))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Sorry pussy I do not understand what u mean. If u want compliment just type your today mood) (Possible moods: " + Arrays.toString(MoodType.values())));
+                .orElseThrow(() -> new IllegalArgumentException("Sorry my love I do not understand what u mean. If u want compliment just type your today mood) (Possible moods: " + Arrays.toString(MoodType.values())));
     }
 
     private MoodType determineMod(String message) {
