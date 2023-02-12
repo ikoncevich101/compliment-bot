@@ -19,6 +19,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
     private static final String BOT_NAME = "BotForMydDarlingGirlfriend_bot";
+    private static final String SECRET_MESSAGE = "/secretMessage";
+    private static final String SECRET_MESSAGE2 = "/secretMessage2";
     private static final String DELIMETER = "\\|";
     @Value("${bot.chatId}")
     private Long daryaChatId;
@@ -38,8 +40,10 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (update.hasMessage()) {
             var msg = update.getMessage();
             var chatId = msg.getChatId();
-            daryaChatId = chatId;
             try {
+                if (checkSecretMessage(msg.getText())) {
+                    return;
+                }
                 checkMessage(msg.getText());
                 sendNotification(String.valueOf(chatId), determineMod(msg.getText()));
             } catch (IllegalArgumentException e) {
@@ -47,6 +51,20 @@ public class TelegramBot extends TelegramLongPollingBot {
                 execute(request);
             }
         }
+    }
+
+    private boolean checkSecretMessage(String message) throws TelegramApiException {
+        if (message.equalsIgnoreCase(SECRET_MESSAGE)) {
+            SendMessage request = new SendMessage(String.valueOf(daryaChatId), "Твои щёки, лучшее что я видел в своей жизни");
+            execute(request);
+            return true;
+        }
+        if (message.equalsIgnoreCase(SECRET_MESSAGE2)) {
+            SendMessage request = new SendMessage(String.valueOf(daryaChatId), "Эй сладкая писюха, не хочешь немного развлечься по взрослому?) (Я имею ввиду интимную близость)");
+            execute(request);
+            return true;
+        }
+        return false;
     }
 
     private void checkMessage(String message) {
@@ -65,9 +83,6 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     @Scheduled(cron = "0 0 10 * * ?")
     public void sendByScheduler() throws TelegramApiException {
-        if (daryaChatId == null) {
-            return;
-        }
         String initialMessage = "Hi my darling Draya, how are u feeling today? (Possible answers: " + Arrays.toString(MoodType.values()) + ";";
         var request = new SendMessage(daryaChatId.toString(), initialMessage);
         execute(request);
